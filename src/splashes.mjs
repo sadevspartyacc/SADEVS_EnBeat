@@ -32,7 +32,7 @@ export const splashes = [
     "I dunno, man, I <i>might</i> have eighty televisions, but if I do, <i>they're all 1080p!</i>",
     "Reject all else, 8 bit computing is the way!",
     "Windows systems when you remove system32 -> :(",
-    "The creator of this website uses Arch Linux, and he'd like to let you anow of that fact.",
+    "The creator of this website uses Arch Linux, and they'd like to let you anow of that fact.",
     "Where's my pet eldrich horror now?",
     "galvanize that steel and squAre it",
     "Sorry, maximum call stack size exceeded!",
@@ -64,5 +64,8 @@ export const splashes = [
     "Expand!",
     "spooky scary skeletions<br>send shivers down your spine<br><br>shrieking skulls will shock your soul<br>seal your fate tonight",
     "Check out the <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>user manual!</a>",
-    "Error 40!<br>The page has detected a critical error and will now combust!"
+    "Error 40!<br>The page has detected a critical error and will now combust!",
+    "&quot;As hard as it may be, sometimes you have to leave from what leaves you in a worse place.&quot;<br> &mdash; Chasyxx, 2025",
+    "&quot;As hard as it is, anything can disappear when you are least prepared.&quot;<br> &mdash; Chasyxx, 2025",
+    "RIP Bytebeat Classic Discord<br>Gone without warning...<br>2022 - 2025"
 ];

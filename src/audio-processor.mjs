@@ -238,7 +238,7 @@ class audioProcessor extends AudioWorkletProcessor {
 			this.setSampleRatio(data.sampleRatio);
 		}
 		if(data.divisor !== undefined) {
-			this.sampleDivisor/*PRO*/ = data.divisor;
+			this.sampleDivisor = data.divisor;
 		}
 		if(data.DMode !== undefined) {
 			this.soundMode = data.DMode;
@@ -259,6 +259,7 @@ class audioProcessor extends AudioWorkletProcessor {
 		this.audioSample = 0;
 		this.lastTime = -1;
 		this.outValue = [0, 0];
+		this.lastFuncValue = [null,null];
 	}
 	setFunction(codeText) {
 		const chyx = {
