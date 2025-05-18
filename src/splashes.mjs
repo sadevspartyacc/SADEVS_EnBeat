@@ -67,5 +67,6 @@ export const splashes = [
     "Error 40!<br>The page has detected a critical error and will now combust!",
     "&quot;As hard as it may be, sometimes you have to leave from what leaves you in a worse place.&quot;<br> &mdash; Chasyxx, 2025",
     "&quot;As hard as it is, anything can disappear when you are least prepared.&quot;<br> &mdash; Chasyxx, 2025",
-    "RIP Bytebeat Classic Discord<br>Gone without warning...<br>2022 - 2025"
+    "RIP Bytebeat Classic Discord<br>Gone without warning...<br>2023 - 2025",
+    "Join <a href=\"https://discord.gg/z3VwfyRkPC\">the discord</a>!"
 ];
