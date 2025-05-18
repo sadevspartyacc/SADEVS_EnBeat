@@ -25,6 +25,17 @@ export class Scope {
 	clearCanvas() {
 		this.canvasCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 	}
+	static getBin(idx, max) {
+		const inputWholes = idx / max;
+		const binCount = globalThis.bytebeat.analyserNode.frequencyBinCount;
+		const nyquist = globalThis.bytebeat.audioCtx.sampleRate / 2;
+		const logMin = Math.log2(20);
+		const logMax = Math.log2(nyquist);
+		const logFreq = logMin * (1-inputWholes) + logMax * inputWholes;
+		const hz =  Math.pow(2, logFreq);
+		const outputWholes = hz / nyquist;
+		return binCount * outputWholes | 0;
+	}  
 	drawGraphics(endTime) {
 		if(!isFinite(endTime)) {
 			globalThis.bytebeat.resetTime();
@@ -77,6 +88,7 @@ export class Scope {
 		// Drawing in a segment
 		const isCombined = this.drawMode === 'Combined';
 		const isDiagram = this.drawMode === 'Diagram';
+		const isSpectrogram = this.drawMode === 'Spectrogram';
 		const isWaveform = this.drawMode === 'Waveform';
 		const { colorDiagram } = this;
 		const colorPoints = this.colorWaveform;
@@ -85,6 +97,11 @@ export class Scope {
 			Math.floor(.6 * colorPoints[1] | 0),
 			Math.floor(.6 * colorPoints[2] | 0)];
 		let ch, drawDiagramPoint, drawPoint, drawWavePoint;
+		let freqs = null;
+		if(isSpectrogram) {
+			freqs = new Uint8Array(globalThis.bytebeat.analyserNode.frequencyBinCount);
+			globalThis.bytebeat.analyserNode.getByteFrequencyData(freqs);
+		}
 		for(let i = 0; i < bufferLen; ++i) {
 			const curY = buffer[i].value;
 			const prevY = buffer[i - 1]?.value ?? [NaN, NaN];
@@ -94,7 +111,7 @@ export class Scope {
 			const curX = mod(Math.floor(this.getX(isReverse ? nextTime + 1 : curTime)) - startX, width);
 			const nextX = mod(Math.ceil(this.getX(isReverse ? curTime + 1 : nextTime)) - startX, width);
 			let diagramSize, diagramStart;
-			if(isCombined || isDiagram) {
+			if(isCombined || isDiagram || isSpectrogram) {
 				diagramSize = Math.max(1, 256 >> scale);
 				diagramStart = diagramSize * mod(curTime, 1 << scale);
 			} else if(isNaNCurY[0] || isNaNCurY[1]) {
@@ -124,7 +141,7 @@ export class Scope {
 				const curYCh = curY[ch];
 				const colorCh = this.colorChannels;
 				// Diagram drawing
-				if(isCombined || isDiagram) {
+				if(isCombined || isDiagram || isSpectrogram) {
 					const isNaNCurYCh = isNaNCurY[ch];
 					const value = (curYCh & 255) / 256;
 					const color = [
@@ -134,15 +151,30 @@ export class Scope {
 					for(let x = curX; x !== nextX; x = mod(x + 1, width)) {
 						for(let y = 0; y < diagramSize; ++y) {
 							const idx = (drawWidth * (diagramStart + y) + x) << 2;
+							let usedColor = color;
+							if(isSpectrogram) {
+								const thisIdx = Scope.getBin(height - diagramStart - y - 1,height);
+								const nextIdx = Math.max(thisIdx+1,Scope.getBin(height - diagramStart - y,height));
+								let value = 0;
+								for(let j = thisIdx; j < nextIdx; j++) {
+									value += freqs[j] ?? 0;
+									// console.log(j,freqs[j],value);
+								}
+								value = value / (nextIdx - thisIdx) / 255;
+								usedColor = [
+									value * colorDiagram[0] | 0,
+									value * colorDiagram[1] | 0,
+									value * colorDiagram[2] | 0];
+							}
 							if(isNaNCurYCh) {
 								data[idx] = 100; // Error: red color
 							} else {
-								drawDiagramPoint(data, idx, color, colorCh, ch);
+								drawDiagramPoint(data, idx, usedColor, colorCh, ch);
 							}
 						}
 					}
 				}
-				if(isNaNCurY[ch] || isDiagram) {
+				if(isNaNCurY[ch] || isDiagram || isSpectrogram) {
 					continue;
 				}
 				// Points drawing

@@ -44,6 +44,9 @@ export class UI {
 		this.favoritesList = null;
 		this.settingsAudioRate = null;
 		this.settingsAudioRateApplyButton = null;
+		this.settingsFFTSize = null;
+		this.settingsMindB = null;
+		this.settingsMaxdB = null;
 		this.downloader = null;
 		this.splashElem = null;
 		this.mainElem = null;
@@ -97,6 +100,9 @@ export class UI {
 		this.favoritesList = document.getElementById('favorites-content');
 		this.settingsAudioRate = document.getElementById('settings-audiorate');
 		this.settingsAudioRateApplyButton = document.getElementById('settings-audiorate-apply');
+		this.settingsFFTSize = document.getElementById('settings-fftsize');
+		this.settingsMindB = document.getElementById('settings-mindb');
+		this.settingsMaxdB = document.getElementById('settings-maxdb');
 		this.downloader = document.getElementById('downloader');
 		this.splashElem = document.getElementById('splash');
 		this.mainElem = document.getElementById('content');

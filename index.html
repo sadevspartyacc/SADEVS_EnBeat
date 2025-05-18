@@ -46,6 +46,7 @@
 					<option value="Waveform">Waveform</option>
 					<option value="Diagram">Diagram</option>
 					<option value="Combined">Combined</option>
+					<option value="Spectrogram">Spectrogram</option>
 				</select>
 				<select id="control-mode" class="control-select controls-grow" title="Sound mode">
 					<option value="Bytebeat" title="Traditional wrapping 0 to 255 bytebeat." selected>Bytebeat</option>
@@ -320,6 +321,32 @@
 						and it can quiet down some unintended frequencies when this samplerate isn't a multiple of the song samplerate.<br />
 						If you want to use the mic, set this to the result of the mic test (song actions) so that it works.
 					</p>
+					<label class="settings-block">
+						<div class="controls-group controls-grow" title="FFT size for Spectrogram">
+							<span class="control-label">FFT size:</span>
+							<select id="settings-fftsize" class="control-select">
+								<option value="32">32 - Fastest, least frequencies</option>
+								<option value="64">64</option>
+								<option value="128">128</option>
+								<option value="256">256</option>
+								<option value="512">512</option>
+								<option value="1024">1024</option>
+								<option value="2048">2048</option>
+								<option value="4096" selected>4096 - Default</option>
+								<option value="8192">8192</option>
+								<option value="16384">16384</option>
+								<option value="32768">32768 - Slowest, most frequencies</option>
+							</select>
+						</div>
+					</label>
+					<label class="settings-block">
+						<div class="controls-group controls-grow">
+							<span class="control-label">FFT decibels:</span>
+							<input value="-70" type="number" id="settings-mindb" class="control-text">
+							<span class="control-label"> to </span>
+							<input value="-20" type="number" id="settings-maxdb" class="control-text">
+						</div>
+					</label>
 					<label class="settings-block">
 						<a href="bytebeat.php?manage" title="You will be disappointed if you're clicking this link on prod. It won't work.">Manage library (only works in devEnv)</a>
 					</label>

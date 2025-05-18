@@ -12,7 +12,7 @@ class audioProcessor extends AudioWorkletProcessor {
 		this.playbackSpeed = 1;
 		this.divisorStorage = 0;
 		this.lastTime = -1;
-		this.lastFuncValue = [0, 0];
+		this.lastFuncValue = [null, null];
 		this.lastByteValue = [0, 0];
 		this.outValue = [0, 0];
 		this.sampleRate = 8000;
@@ -69,7 +69,7 @@ class audioProcessor extends AudioWorkletProcessor {
 		let time = this.sampleRatio * this.audioSample;
 		let { byteSample } = this;
 		const drawBuffer = [];
-		const isDiagram = this.drawMode === 'Combined' || this.drawMode === 'Diagram';
+		const isDiagram = this.drawMode === 'Combined' || this.drawMode === 'Diagram' || this.drawMode === 'Spectrogram';
 		for(let i = 0; i < chDataLen; ++i) {
 			time += this.sampleRatio;
 			const currentTime = Math.floor(time);

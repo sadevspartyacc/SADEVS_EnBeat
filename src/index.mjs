@@ -24,6 +24,7 @@ globalThis.bytebeat = new class {
 		this.audioRecorder = null;
 		this.audioWorkletNode = null;
 		this.mediaInputSourceNode = null;
+		this.analyserNode = null;
 		this.byteSample = 0;
 		this.defaultSettings = {
 			codeStyle: 'Atom Dark',
@@ -37,7 +38,10 @@ globalThis.bytebeat = new class {
 			showAllSongs: library.showAllSongs,
 			themeStyle: 'Default',
 			volume: .5,
-			audioSampleRate: 48000
+			audioSampleRate: 48000,
+			fftSize: 4096,
+			minDecibels: -70,
+			maxDecibels: -20
 		};
 		this.isCompilationError = false;
 		this.isNeedClear = false;
@@ -69,6 +73,9 @@ globalThis.bytebeat = new class {
 			case 'control-mode': this.setPlaybackMode(elem.value); break;
 			case 'control-samplerate':
 			case 'control-samplerate-select': this.setSampleRate(+elem.value); break;
+			case 'settings-mindb': this.setMindB(+elem.value); break;
+			case 'settings-maxdb': this.setMaxdB(+elem.value); break;
+			case 'settings-fftsize': this.setFFTSize(+elem.value); break;
 			case 'control-theme-style': this.setThemeStyle(elem.value); break;
 			case 'library-show-all':
 				library.toggleAll(elem, elem.checked);
@@ -165,9 +172,13 @@ globalThis.bytebeat = new class {
 		}
 		this.setThemeStyle();
 		this.setAudioSampleRate();
-		try {
+		this.setMindB();
+		this.setMaxdB();
+		this.setFFTSize()
+;		try {
 			await this.initAudio();
 		} catch(e) {
+			console.error(e);
 			this.startError = [ 'audioRate', e ];
 			this.settings.audioSampleRate = 48000;
 			this.saveSettings();
@@ -242,7 +253,7 @@ globalThis.bytebeat = new class {
 		!window.location.hostname.includes('local')) {
 			ui.okAlert(
 				`[ALERT]\n\nThe expected domain '${ this.expectedDomain }' was not found.\n` +
-				`While this site might just be a skid of '${ this.expectedDomain }'` +
+				`While this site might just be a skid of '${ this.expectedDomain }' ` +
 				`(try looking up '${ this.expectedDomain } bytebeat player'),\n` +
 				'this site has softened up from before and will still let you use it.\n' +
 				'Hopefully you find the original. Hope for the best.\n\n' +
@@ -256,12 +267,14 @@ globalThis.bytebeat = new class {
 		});
 		this.audioGain = new GainNode(this.audioCtx);
 		this.audioGain.connect(this.audioCtx.destination);
+		this.analyserNode = new AnalyserNode(this.audioCtx, { fftSize: this.settings.fftSize, smoothingTimeConstant: 0, minDecibels: this.settings.minDecibels, maxDecibels: this.settings.maxDecibels });
+		this.analyserNode.connect(this.audioGain);
 		await this.audioCtx.audioWorklet.addModule('./build/audio-processor.mjs');
 		this.audioWorkletNode = new AudioWorkletNode(this.audioCtx, 'audioProcessor',
 			{ outputChannelCount: [2] });
 		this.audioWorkletNode.port.addEventListener('message', e => this.receiveData(e.data));
 		this.audioWorkletNode.port.start();
-		this.audioWorkletNode.connect(this.audioGain);
+		this.audioWorkletNode.connect(this.analyserNode);
 		const mediaDest = this.audioCtx.createMediaStreamDestination();
 		const audioRecorder = this.audioRecorder = new MediaRecorder(mediaDest.stream);
 		audioRecorder.addEventListener('dataavailable', e => this.audioRecordChunks.push(e.data));
@@ -291,7 +304,7 @@ globalThis.bytebeat = new class {
 		try {
 			this.micMedia = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
 			const tempSource = testContext.createMediaStreamSource(this.micMedia);
-			const detectedSampleRate = tempSource.context.sampleRate; // Extract detected sample rate
+			const detectedSampleRate = tempSource.context.sampleRate;
 			if(typeof detectedSampleRate == 'number') {
 				ui.yesNoAlert('The samplerate is ' + detectedSampleRate + 'Hz.' +
 					'\n\nApply this samplerate now?', ()=>{ this.setAudioSampleRate(detectedSampleRate) }, () => { });
@@ -609,6 +622,41 @@ globalThis.bytebeat = new class {
 				sampleRate: this.sampleRate,
 				sampleRatio: this.sampleRate / this.audioCtx.sampleRate
 			});
+		}
+	}
+	setMindB(dB) {
+		if(dB !== undefined) {
+			if(dB>0||dB<-150) dB = this.defaultSettings.minDecibels;
+			else dB = Math.min(this.settings.maxDecibels-10,dB);
+			ui.settingsMindB.value = this.settings.minDecibels = this.analyserNode.minDecibels = dB;
+			ui.settingsMindB.blur();
+			this.saveSettings();
+		} else if((dB = this.settings.minDecibels) === undefined) {
+			dB = this.settings.minDecibels = this.defaultSettings.minDecibels;
+			this.saveSettings();
+		}
+	}
+	setMaxdB(dB) {
+		if(dB !== undefined) {
+			if(dB>0||dB<-150) dB = this.defaultSettings.maxDecibels;
+			else dB = Math.max(this.settings.minDecibels+10,dB);
+			ui.settingsMaxdB.value = this.settings.maxDecibels = this.analyserNode.maxDecibels = dB;
+			ui.settingsMaxdB.blur();
+			this.saveSettings();
+		} else if((dB = this.settings.maxDecibels) === undefined) {
+			dB = this.settings.maxDecibels = this.defaultSettings.maxDecibels;
+			this.saveSettings();
+		}
+	}
+	setFFTSize(size) {
+		if(size !== undefined) {
+			if(size>32768||size<32) size = this.defaultSettings.fftSize;
+			ui.settingsFFTSize.value = this.settings.fftSize = this.analyserNode.fftSize = size;
+			ui.settingsFFTSize.blur();
+			this.saveSettings();
+		} else if((size = this.settings.fftSize) === undefined) {
+			size = this.settings.fftSize = this.defaultSettings.fftSize;
+			this.saveSettings();
 		}
 	}
 	setScale(amount, buttonElem) {
