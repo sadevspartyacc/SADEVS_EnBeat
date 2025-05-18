@@ -56,6 +56,12 @@ jobs:
           cp build/index.js artifactRoot/build/
           cp build/audio-processor.mjs artifactRoot/build/
 
+      - name: Copy sourcemaps
+        id: copy-sourcemaps
+        run: |
+          cp build/index.js.map artifactRoot/build/
+          cp build/audio-processor.mjs.map artifactRoot/build/
+
       - name: Copy library
         id: copy-library
         run: |
