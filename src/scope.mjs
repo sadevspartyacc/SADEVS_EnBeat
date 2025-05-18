@@ -148,9 +148,7 @@ export class Scope {
 						value * colorDiagram[0] | 0,
 						value * colorDiagram[1] | 0,
 						value * colorDiagram[2] | 0];
-					for(let x = curX; x !== nextX; x = mod(x + 1, width)) {
 						for(let y = 0; y < diagramSize; ++y) {
-							const idx = (drawWidth * (diagramStart + y) + x) << 2;
 							let usedColor = color;
 							if(isSpectrogram) {
 								const thisIdx = Scope.getBin(height - diagramStart - y - 1,height);
@@ -166,6 +164,8 @@ export class Scope {
 									value * colorDiagram[1] | 0,
 									value * colorDiagram[2] | 0];
 							}
+						for(let x = curX; x !== nextX; x = mod(x + 1, width)) {
+							const idx = (drawWidth * (diagramStart + y) + x) << 2;
 							if(isNaNCurYCh) {
 								data[idx] = 100; // Error: red color
 							} else {
