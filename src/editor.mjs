@@ -50,7 +50,22 @@ const editorView = initValue => new EditorView({
 export class Editor {
 	constructor() {
 		this.container = null;
-		this.defaultValue = '10*(t>>7|t|t>>6)+4*(t&t>>13|t>>6)';
+		this.defaultValue = `astr="CHASYXX Bytebeat composer",
+bstr="Revived in 2025",
+cstr="Based off StephanShi's dE player",
+ainst=astr.charCodeAt(
+	(
+		((t&t>>14)&7)+t*(t>>11&7^t>>10&3)
+	)%(astr.length)),
+binst=bstr.charCodeAt(
+	(
+		((t&t>>17)&7)+t*(t>>12&7^t>>10&7)
+	)%(bstr.length)),
+cinst=cstr.charCodeAt(
+	(
+		(t&t>>20)+((t*1.07)>>2)*(t>>13&7^t>>10&15)
+	)%(cstr.length)),
+(ainst+binst+cinst)/2|(t>>17?t>>4:t>>10>=124?255:0)`;
 		this.errorElem = null;
 		this.view = null;
 	}
