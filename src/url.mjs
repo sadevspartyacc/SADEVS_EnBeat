@@ -41,5 +41,10 @@ export function getUrlFromCode(code, mode, sampleRate) {
 	outputArr[0] = ['Bytebeat', 'Signed Bytebeat', 'Floatbeat', 'Funcbeat'].indexOf(mode);
 	outputArr.set(new Uint8Array(new Float32Array([sampleRate]).buffer), 1);
 	outputArr.set(codeArr, 5);
-	window.location.hash = '4' + btoa(String.fromCharCode.apply(null, outputArr)).replaceAll('=', '');
+	// since we're dealing with Uint8Array I should use the non-map method I think
+	let str = "";
+	for(let i = 0; i < outputArr.length; i++) {
+		str += String.fromCharCode(outputArr[i]);
+	}
+	window.location.hash = '4' + btoa(str).replaceAll('=', '');
 }
