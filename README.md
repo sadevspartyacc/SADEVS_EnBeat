@@ -1,10 +1,31 @@
-# bytebeat-composer
+# EnBeat_NEW
 Live editing algorithmic music generator with a collection of many formulas from around the internet.
+
+> [!IMPORTANT]
+> ## Before you create an issue
+> Do not create issues suggesting new sound modes or new functions.
+> Even if these were the original purpose of the player,
+> it is now intended to be a more advanced bytebeat player compared to Dollchan.
+>
+> I share the sentiment that you can create the functions in the bytebeat code itself,
+> and make converters from your preferred mode to Floatbeat/Funcbeat,
+> rather than try to get players to make their own built-in functions.
+>
+> Any issues I see that just serve to add new modes/functions will be closed as not planned.
+> This is what I've already done and is what I will continue to do in the future.
 
 **Access player at https://chasyxx.github.io/EnBeat_NEW/**<br>
 **Dollchan discission threads https://dollchan.net/btb**
 
-![Serpinsky](https://user-images.githubusercontent.com/105890603/229014766-38a7c067-55d3-4120-9ed8-2a8aeb4c1f20.png)
+![UI buttons and a visualiser showing sierpinski triangles](https://user-images.githubusercontent.com/105890603/229014766-38a7c067-55d3-4120-9ed8-2a8aeb4c1f20.png)
+
+## List of features compared to dollchan
+* Spectrogram (Plots pitches of the sound output in real time)
+* Mic input (Useful for creating DSP filters or modems instead of songs)
+* Customizable sample rate for ultrasonic sound cards and/or higher-quality string simulation
+* Big codes still update the link (dollchan has problems with this and has closed the issue regarding it)
+* Ability to save codes locally as supercookies
+* Link size shown in size indicator (Also KiB and KB are shown seperately)
 
 ## Compilation
 
@@ -21,8 +42,9 @@ npm start
 
 ## Collection of songs
 
-Songs lists are stored in JSON format, compressed with GZIP in `/data/library/*.gz` files.<br>
-Songs codes larger than 1KB are stored in `/data/songs/*/*.js` files.<br>
+Songs lists are stored in GZIP-compressed JSON `/data/library/*.gz` files.
+Codes larger than 1KB are stored in `/data/songs/*/*.js` files.
+
 To maintain your own library of songs:
 
 1. Create a MySQL database on your server.
@@ -35,6 +57,6 @@ To maintain your own library of songs:
 8. The management panel is now available.
 
 The following management functions are provided:
-- "Migrate to database" button &ndash; to fullfill your database with songs from `/data` library files.
-- "Make library files" button &ndash; to generate `/data` library files from your database.
-- "Add a song" button &ndash; opens a form to add a new song.
+- "Migrate to database" button &ndash; Sets up a empty database with codes from the `all.gz` file and the `songs/` directory. **This clears the old contents of the database.**
+- "Make library files" button &ndash; Generates `/data` library files from your database.
+- "Add a song" button &ndash; Opens a form to add a new song.
