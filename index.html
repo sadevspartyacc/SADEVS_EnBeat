@@ -69,6 +69,7 @@
 						<option value="32000">32000Hz</option>
 						<option value="44100">44100Hz</option>
 						<option value="48000">48000Hz</option>
+						<option value="64000">64000Hz</option>
 					</select>
 				</div>
 				<div class="controls-group">
@@ -151,7 +152,7 @@
 				<article id="info" class="library-container entry loaded">
 					Bytebeat music (or one-liner music) was invented in September 2011.
 					They're generally a piece of rhythmic and somewhat melodic music with no score, no instruments, and no real oscillators.
-					It's simply a single-line formula that defines a waveform as a function of time, processed (usually) 8000 times per second, resulting in an audible waveform with a 256-step resolution from silence (0) to full amplitude (256).
+					It's simply a single-line formula that defines a waveform as a function of time, processed (usually) 8000 times per second, resulting in an audible waveform with a 255-step resolution from silence (0) to full amplitude (255).
 					If you put that formula into a program with a loop that increments time variable (t), you can generate the headerless unsigned 8 bit mono 8kHz audio stream on output, like in this application.
 					Since these directly output a waveform, they have great performance in compiled languages and can often be ran on even the weakest embedded devices.<br />
 					<a href="http://canonical.org/~kragen/bytebeat/" target="_blank">History of bytebeat</a><br />
@@ -367,7 +368,7 @@
 			</details>
 			<footer>
 				<a class="link" href="https://dollchan.net/btb/" title="Dollchan bytebeat discussion threads" target="_blank">Discussion board</a><br>
-				<a class="link" href="https://github.com/Chasyxx/EnBeat_NEW" title="This site's Github repo" target="_blank">This site's source code</a><br>
+				<a class="link" href="https://github.com/Chasyxx/EnBeat_NEW" title="This site's Github repo" target="_blank">Chasyxx site's source code</a><br>
 				<a class="link" href="https://github.com/SthephanShinkufag/bytebeat-composer" title="Dollchan's Github repo" target="_blank">Dollchan's source code</a>
 			</footer>
 		</section>
