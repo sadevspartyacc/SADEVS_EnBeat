@@ -1200,3 +1200,6 @@ button[name="close"] {
 		resize: none;
 	}
 }
+.reminder {
+	color: #FF0202;
+}
