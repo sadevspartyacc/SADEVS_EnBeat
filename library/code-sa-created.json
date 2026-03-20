@@ -2,7 +2,7 @@
   {
 				"description": "port btb to 2048",
 				"codeOriginal": "(t&(t/256))*8",
-          "codeMinified":"(t&t>>8)*8
+          "codeMinified":"(t&t>>8)*8", 
 				"date": "2026-03-20",
 				"mode": "2048"
           }
