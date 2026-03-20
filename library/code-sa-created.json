@@ -10,6 +10,6 @@
 		"description": "NAH I COOKED", 
 		"codeOriginal":"beat=(b,p)=>(CbrtSin=a=>Math.cbrt(Math.sin(a)))((cbrt(t%b)*p)),mtof=n=>440*2**((n-69)/12),dr=((beat(65536/2,1)+beat(4096,8)/4)+beat(16384,4)),CbrtSin(t*mtof([0,5,2,7][t>>15&3])/64)/2+(t>((65536*3)+16384)?dr:0)+random()*sin(t/65536)/2", 
 		"sampleRate":48000, 
-		"mode":"floatbeat"
+		"mode":"Floatbeat"
 	}
 ]
