@@ -17,10 +17,5 @@
 	            "codeMinified":"t*(t>>10&42)/64", 
 				"date": "2026-03-21",
 				"mode": "Bitbeat"
-          }, 
-	{
-		"description":"just nan", 
-		"codeOriginal":"t&t>>8", 
-		"mode": "nan hehe"
-	}
+          }
 ]
