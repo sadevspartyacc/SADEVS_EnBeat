@@ -17,9 +17,4 @@
 	            "codeMinified":"t*(t>>10&42)/64", 
 				"date": "2026-03-21",
 				"mode": "Bitbeat"
-	}, 
-	{
-		"description":"random sr", 
-		"sampleRate":(Math.random()*48000),
-		"codeOriginal":"t&t>>8|t>>5"
 	}]
