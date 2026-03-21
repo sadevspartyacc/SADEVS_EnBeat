@@ -20,6 +20,6 @@
 	}, 
 	{
 		"description":"random sr", 
-		"sampleRate":Math.random()*48000,
+		"sampleRate":(Math.random()*48000),
 		"codeOriginal":"t&t>>8|t>>5"
 	}]
