@@ -2,6 +2,7 @@
 				"description": "we are minceraft",
 				"codeOriginal":"t?0:r=Array(l=16e3).fill(0),g=min(t/6e6,.7)*(sqrt(tanh(sin(t*[330,440,494,659,784,988,1175,1568][0|t/10909%8]/7640*(62<(0|t/10909%64)?1.122:1))*2)+1)-1)+r[t%l]/2,r[t%l]=g/E,g", 
 				"date": "2026-03-28",
+	"sampleRate":48000,
 				"mode": "Floatbeat"
           }, 
   {
